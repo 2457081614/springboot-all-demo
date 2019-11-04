@@ -6,10 +6,9 @@ import org.springframework.core.io.FileSystemResource;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.context.Context;
 
 import javax.mail.internet.MimeMessage;
 import java.io.File;
@@ -27,8 +26,8 @@ public class SendSimpleMail {
     @Value("${spring.mail.username}")
     private String from;
 
-  /*  @Autowired
-    private TemplateEngine templateEngine;*/
+    @Autowired
+    private TemplateEngine templateEngine;
 
     public String sendSimpleEmail() {
         try {
@@ -81,6 +80,51 @@ public class SendSimpleMail {
             // 传入附件
             FileSystemResource file = new FileSystemResource(new File("D:\\资料\\chrome.crx"));
             helper.addAttachment("chrome.crx", file);
+            jms.send(message);
+            return "发送成功";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return e.getMessage();
+        }
+    }
+
+    /**
+     * 添加静态资源的邮件
+     * @return
+     */
+    public String sendInlineMail() {
+        MimeMessage message = null;
+        try {
+            message = jms.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(message, true);
+            helper.setFrom(from);
+            helper.setTo("888888@qq.com"); // 接收地址
+            helper.setSubject("一封带静态资源的邮件"); // 标题
+            helper.setText("<html><body>博客图：<img src='cid:img'/></body></html>", true); // 内容
+            // 传入附件
+            FileSystemResource file = new FileSystemResource(new File("src/main/resources/static/img/sunshine.png"));
+            helper.addInline("img", file);
+            jms.send(message);
+            return "发送成功";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return e.getMessage();
+        }
+    }
+
+    public String sendTemplateEmail(String code) {
+        MimeMessage message = null;
+        try {
+            message = jms.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(message, true);
+            helper.setFrom(from);
+            helper.setTo("2457081614@qq.com"); // 接收地址
+            helper.setSubject("邮件摸板测试"); // 标题
+            // 处理邮件模板
+            Context context = new Context();
+            context.setVariable("code", code);
+            String template = templateEngine.process("email", context);
+            helper.setText(template, true);
             jms.send(message);
             return "发送成功";
         } catch (Exception e) {

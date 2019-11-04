@@ -32,4 +32,10 @@ class SpringBootEmailApplicationTests {
         sendSimpleMail.sendAttachmentsMail();
     }
 
+    @Test
+    public void sendTempleteMail()
+    {
+        sendSimpleMail.sendTemplateEmail("hello");
+    }
+
 }
