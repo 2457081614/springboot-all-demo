@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- <configuration debug="true"> 调试模式下，可输出logback的内部日志信息 -->
+<configuration>
+    <!-- 定义变量 -->
+    <property name="LOG_HOME" value="${user.dir}" />
+    <!-- 引用其它文件的设置 <property file="res/log_config.properties" /> -->
+    <!-- appender(输出端) 此处是控制台输出，用的是ConsoleAppender,STDOUT，此名字随意起，和root下的一致就行 -->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+
+        <!-- encoders are assigned the type ch.qos.logback.classic.encoder.PatternLayoutEncoder by default -->
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+    <!-- 文件输出1 -->
+    <appender name="FILE" class="ch.qos.logback.core.FileAppender">
+        <!-- 输出文件名 -->
+        <!-- <file>${LOG_HOME}/logs/mylog.log</file> -->
+        <!-- 输出文件名,引用其它文件的设置 -->
+        <file>${app_home}/mylog.log</file>
+        <encoder>
+            <!--%date日期 %level日志级别 [%thread]当前线程 %logger{50}输出日志的类，50代表包名加类名的总长度限制 [%file:%line]日志所在文件及行数 %msg%n消息及换行 -->
+            <pattern>%date %level [%thread] %logger{50} [%file:%line] %msg%n
+            </pattern>
+        </encoder>
+    </appender>
+    <!-- 按照每天生成日志文件 -->
+    <appender name="FILE2" class="ch.qos.logback.core.rolling.RollingFileAppender">
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!--日志文件输出的文件名 -->
+            <FileNamePattern>${LOG_HOME}/ifproxy_%d{yyyy-MM-dd}.log</FileNamePattern>
+            <!-- 最多日志文件数，必须和CleanHistoryOnStart一起使用 -->
+            <MaxHistory>3</MaxHistory>
+            <CleanHistoryOnStart>true</CleanHistoryOnStart>
+        </rollingPolicy>
+        <encoder>
+            <!--%date日期 %level日志级别 [%thread]当前线程 %logger{50}输出日志的类，50代表包名加类名的总长度限制 [%file:%line]日志所在文件及行数 %msg%n消息及换行 -->
+            <pattern>%date %level [%thread] %logger{50} [%file:%line] %msg%n
+            </pattern>
+        </encoder>
+    </appender>
+    <!-- 级别定义，输出端内容输出级别，大于或等于root定义的level，方能在输出端输出 -->
+    <root level="info">
+        <appender-ref ref="STDOUT" />
+        <appender-ref ref="FILE2" />
+    </root>
+    <!-- 单独为某些类定输出级别 -->
+    <logger name="com.log.test.Test2" level="info"></logger>
+    <!--  将指定类(mytest.lala.Test)的日志单独输出到指定的日志文件中(control2)
+    <appender name="FILE3" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <FileNamePattern>${LOG_HOME}/%d{yyyyMM}/control2_%d{yyyy-MM-dd}.log</FileNamePattern>
+        </rollingPolicy>
+        <encoder charset="UTF-8">
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n
+            </pattern>
+        </encoder>
+    </appender>
+    <logger name="mytest.lala.Test">
+        <appender-ref ref="FILE3" />
+    </logger>
+    -->
+</configuration>
