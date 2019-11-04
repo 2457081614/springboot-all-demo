@@ -1,0 +1,16 @@
+server:
+  port: 8802
+
+spring:
+  mail:
+    host: smtp.qq.com
+    username: 2457081614@qq.com
+    # 这个不是邮件密码，是授权码
+    password: gdpjoadesczudije
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
