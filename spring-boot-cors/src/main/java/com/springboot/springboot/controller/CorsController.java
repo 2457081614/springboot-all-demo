@@ -19,7 +19,7 @@ public class CorsController {
 
     @RequestMapping("hello")
     @ResponseBody
-    @CrossOrigin(value = "*")
+    @CrossOrigin(value = "xw.test")
     public String hello() {
         return "hello";
     }
