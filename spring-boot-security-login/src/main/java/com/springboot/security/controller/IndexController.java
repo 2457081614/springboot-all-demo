@@ -2,10 +2,7 @@ package com.springboot.security.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @Author: 向往
@@ -17,7 +14,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @Controller
 public class IndexController {
     @RequestMapping("/")
-    public String index(){
+    public String index() {
         System.out.println("in======>index");
         return "index";
     }
@@ -36,10 +33,14 @@ public class IndexController {
     }
 
 
-   /* @GetMapping("/logout")
-    @ResponseBody
-    public String logout() {
-        return "退出成功，请重新登录";
+   /* @PostMapping("/login")
+    public String login() {
+        return "login";
     }*/
 
+    @GetMapping("/admin")
+    @ResponseBody
+    public String admin() {
+        return "admin权限啊";
+    }
 }

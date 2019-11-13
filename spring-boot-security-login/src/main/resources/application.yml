@@ -1,11 +1,11 @@
 spring:
   datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://119.23.74.131:3306/springboot_security?useUnicode=true&characterEncoding=utf-8&useLegacyDatetimeCode=false&serverTimezone=Asia/Shanghai&useSSL=false
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://119.23.74.131:3306/security?useUnicode=true&characterEncoding=utf-8&useLegacyDatetimeCode=false&serverTimezone=Asia/Shanghai&useSSL=false
     username: root
     password: 123456
-  session:
-    store-type: redis
+  #session:
+  #  store-type: redis
 
   jpa:
     show-sql: true
@@ -14,4 +14,5 @@ spring:
 server:
   session:
     timeout: 3600
+  port: 80
 
