@@ -35,4 +35,11 @@ public class IndexController {
         return "退出成功，请重新登录";
     }
 
+
+   /* @GetMapping("/logout")
+    @ResponseBody
+    public String logout() {
+        return "退出成功，请重新登录";
+    }*/
+
 }

@@ -1,5 +1,6 @@
 package com.springboot.security;
 
+import com.springboot.security.handle.MyLogoutSucessHandle;
 import com.springboot.security.service.UserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -9,11 +10,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
-import org.springframework.security.web.session.SessionInformationExpiredEvent;
-import org.springframework.security.web.session.SessionInformationExpiredStrategy;
-
-import javax.servlet.ServletException;
-import java.io.IOException;
 
 /**
  * @Author: 向往
@@ -42,13 +38,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
+                .antMatchers("/login")
+                .permitAll()
                 .anyRequest()
-                .authenticated().and()
+                .authenticated()
+                .and()
                 .formLogin()
                 .loginPage("/login")
                 .failureUrl("/login?error")
-                .permitAll()
-                .and()
+
+
+                /* .and() .and()
                 .sessionManagement()
                 .invalidSessionUrl("/session/invalid") // Session失效后跳转到这个链接
                 .maximumSessions(1)
@@ -58,13 +58,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     public void onExpiredSessionDetected(SessionInformationExpiredEvent sessionInformationExpiredEvent) throws IOException, ServletException {
 
                     }
-                })
-                .and()
+                })*/
                 .and()
                 .logout()
-                .logoutUrl("/signout")
-                // .logoutSuccessUrl("/signout/success")
-               // .logoutSuccessHandler(logOutSuccessHandler)
+                .logoutUrl("/logout")
+                .logoutSuccessHandler(new MyLogoutSucessHandle())
                 .deleteCookies("JSESSIONID");
 
 
