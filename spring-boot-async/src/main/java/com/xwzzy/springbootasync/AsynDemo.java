@@ -7,10 +7,7 @@ import org.springframework.stereotype.Component;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
-/**
- * @author by yangliu@tiduyun.com
- * @Description TODO
- */
+
 @Component
 public class AsynDemo {
 

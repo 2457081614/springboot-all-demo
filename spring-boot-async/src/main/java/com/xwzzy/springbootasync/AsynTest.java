@@ -7,10 +7,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.concurrent.Future;
 
-/**
- * @author by yangliu@tiduyun.com
- * @Description TODO
- */
+
 @Component
 public class AsynTest implements CommandLineRunner {
 
